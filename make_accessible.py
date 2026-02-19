@@ -9,10 +9,11 @@ Automates two tasks:
      self-contained HTML with MathML for equations.
 
 Usage:
-    python make_accessible.py --pdf   Cprog.shn        # PDF changes only
-    python make_accessible.py --html  Cprog.shn        # HTML only
+    python make_accessible.py --shn   Cprog.shn        # patch .shn source only
+    python make_accessible.py --html  Cprog.shn        # HTML only (prompts for version)
+    python make_accessible.py --html  --version n  Cprog.shn  # HTML, notes version
     python make_accessible.py --all   Cprog.shn        # both
-    python make_accessible.py --batch [--pdf] [--html] # all .shn files
+    python make_accessible.py --batch [--shn] [--html] # all .shn files in dir
 
 Requirements:
     coursetex (Perl preprocessor, must be on PATH)
@@ -51,9 +52,9 @@ TITLE_MAP = {
     'MicroCos':           'ECE 474: Micro-C OS/II Overview',
 }
 
-# Streams to use when generating .tex for HTML conversion.
+# Default coursetex version to use when generating .tex for HTML conversion.
 # 'n' (notes) gives the most complete prose output.
-HTML_STREAM = 'n'
+HTML_VERSION = 'n'
 
 # Marker placed in auto-generated alt-text so humans can find and fix them.
 ALT_MARKER = r'*\#*\#Guess by make_accessible.py:'
@@ -349,7 +350,7 @@ def postprocess_html(html: str, alt_map: dict) -> str:
     return re.sub(r'<img [^>]+>', add_alt, html)
 
 
-def generate_html(shn_path: Path, stream: str = HTML_STREAM):
+def generate_html(shn_path: Path, stream: str = HTML_VERSION):
     print(f'\n[HTML] {shn_path.resolve()}')
 
     if not shutil.which('coursetex'):
@@ -419,27 +420,31 @@ def main():
         description='ECE 474 course materials accessibility tool')
     parser.add_argument('files', nargs='*',
         help='.shn files to process (omit with --batch)')
-    parser.add_argument('--pdf', action='store_true',
-        help='Apply PDF accessibility changes')
+    parser.add_argument('--shn', action='store_true',
+        help='Patch the .shn source file with accessibility changes')
     parser.add_argument('--html', action='store_true',
         help='Generate HTML+MathML via Pandoc')
     parser.add_argument('--all', action='store_true',
-        help='Apply both --pdf and --html')
+        help='Apply both --shn and --html')
     parser.add_argument('--batch', action='store_true',
         help='Process all .shn files in current directory')
     parser.add_argument('--no-backup', action='store_true',
         help='Skip .bak backup files when patching')
-    parser.add_argument('--stream', default=HTML_STREAM,
-        help=f'coursetex output stream for HTML (default: {HTML_STREAM})')
+    parser.add_argument('--version', default=None,
+        help='coursetex version for HTML (s=slides, h=handout, n=notes, c=combined); prompted if omitted')
     args = parser.parse_args()
 
-    do_pdf  = args.pdf  or args.all
+    do_shn  = args.shn  or args.all
     do_html = args.html or args.all
 
-    if not do_pdf and not do_html:
+    if not do_shn and not do_html:
         parser.print_help()
-        print('\nSpecify at least one of --pdf, --html, or --all.')
+        print('\nSpecify at least one of --shn, --html, or --all.')
         sys.exit(1)
+
+    if do_html and args.version is None:
+        v = input('coursetex version for HTML (s=slides, h=handout, n=notes, c=combined) [n]: ').strip()
+        args.version = v if v else HTML_VERSION
 
     cwd = Path('.')
     if args.batch:
@@ -456,10 +461,10 @@ def main():
         if not f.exists():
             print(f'WARNING: {f} not found — skipping', file=sys.stderr)
             continue
-        if do_pdf:
+        if do_shn:
             apply_pdf_accessibility(f, make_backup=not args.no_backup)
         if do_html:
-            generate_html(f, stream=args.stream)
+            generate_html(f, stream=args.version)
 
     print('\nDone.')
 
