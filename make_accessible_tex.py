@@ -41,7 +41,7 @@ SUBJECT  = 'Your Subject'       # <-- change this
 KEYWORDS = 'keyword1, keyword2' # <-- change this
 
 # Marker prefix on auto-generated alt-text — search for this to find and fix.
-ALT_MARKER = '*#*#Guess by make_accessible_tex.py:'
+ALT_MARKER = '***!!***Guess by make_accessible_tex.py:'
 
 # ── Preamble patching ─────────────────────────────────────────────────────────
 
@@ -77,7 +77,7 @@ def get_title(tex_path: Path, text: str) -> str:
         t = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', m.group(1))
         t = re.sub(r'\\[a-zA-Z]+\s*', '', t).strip()
         return t
-    return tex_path.stem.replace('_', ' ')
+    return tex_path.stem.replace('_', '\_')
 
 def patch_preamble(text: str, title: str) -> str:
     """

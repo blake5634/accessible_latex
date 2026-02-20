@@ -57,7 +57,7 @@ TITLE_MAP = {
 HTML_VERSION = 'n'
 
 # Marker placed in auto-generated alt-text so humans can find and fix them.
-ALT_MARKER = r'*\#*\#Guess by make_accessible.py:'
+ALT_MARKER = r'***!!***Guess by make_accessible.py:'
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
