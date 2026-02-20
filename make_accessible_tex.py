@@ -36,9 +36,45 @@ from pathlib import Path
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
-AUTHOR   = 'Your Name'          # <-- change this
-SUBJECT  = 'Your Subject'       # <-- change this
-KEYWORDS = 'keyword1, keyword2' # <-- change this
+METADATA_FILE = 'metadata.cfg'
+
+_DEFAULT_AUTHOR   = 'Author'
+_DEFAULT_SUBJECT  = 'Subject'
+_DEFAULT_KEYWORDS = 'KW1 KW2'
+
+
+def load_metadata(directory: Path = None) -> tuple:
+    """
+    Load author/subject/keywords from metadata.cfg in *directory* (default: cwd).
+    If the file doesn't exist, prompt the user and create it.
+    Returns (author, subject, keywords).
+    """
+    cfg = (directory or Path('.')).resolve() / METADATA_FILE
+    if cfg.exists():
+        meta = {}
+        for line in cfg.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            key, _, value = line.partition(' ')
+            meta[key.lower()] = value.strip()
+        return (meta.get('author',   _DEFAULT_AUTHOR),
+                meta.get('subject',  _DEFAULT_SUBJECT),
+                meta.get('keywords', _DEFAULT_KEYWORDS))
+
+    # No config file — prompt the user and create one
+    print(f'\nNo {METADATA_FILE} found in {cfg.parent}.')
+    print('Please enter PDF metadata (press Enter to accept default):\n')
+    author   = input(f'  author   [{_DEFAULT_AUTHOR}]: ').strip() or _DEFAULT_AUTHOR
+    subject  = input(f'  subject  [{_DEFAULT_SUBJECT}]: ').strip() or _DEFAULT_SUBJECT
+    keywords = input(f'  keywords [{_DEFAULT_KEYWORDS}]: ').strip() or _DEFAULT_KEYWORDS
+
+    cfg.write_text(f'author {author}\nsubject {subject}\nkeywords {keywords}\n')
+    print(f'  → saved to {cfg}\n')
+    return (author, subject, keywords)
+
+
+AUTHOR = SUBJECT = KEYWORDS = None  # set at runtime by main()
 
 # Marker prefix on auto-generated alt-text — search for this to find and fix.
 ALT_MARKER = '***!!***Guess by make_accessible_tex.py:'
@@ -282,6 +318,8 @@ def find_tex_files(directory: Path):
     return results
 
 def main():
+    global AUTHOR, SUBJECT, KEYWORDS
+
     parser = argparse.ArgumentParser(
         description='Plain LaTeX accessibility tool (PDF + HTML/MathML)')
     parser.add_argument('files', nargs='*', help='.tex files to process')
@@ -296,6 +334,8 @@ def main():
     parser.add_argument('--no-backup', action='store_true',
                         help='Skip .bak backups when patching')
     args = parser.parse_args()
+
+    AUTHOR, SUBJECT, KEYWORDS = load_metadata()
 
     do_pdf  = args.pdf  or args.all
     do_html = args.html or args.all

@@ -31,9 +31,46 @@ from pathlib import Path
 
 # ── Constants ────────────────────────────────────────────────────────────────
 
-AUTHOR   = "Blake Hannaford, University of Washington"
-SUBJECT  = "ECE 474 Embedded Microcomputer Systems"
-KEYWORDS = "embedded systems, microcontrollers, ECE 474"
+METADATA_FILE = 'metadata.cfg'
+
+# Defaults (used only when creating a new metadata.cfg interactively)
+_DEFAULT_AUTHOR   = "Author"
+_DEFAULT_SUBJECT  = "Subject"
+_DEFAULT_KEYWORDS = "KW1 KW2"
+
+
+def load_metadata(directory: Path = None) -> tuple:
+    """
+    Load author/subject/keywords from metadata.cfg in *directory* (default: cwd).
+    If the file doesn't exist, prompt the user and create it.
+    Returns (author, subject, keywords).
+    """
+    cfg = (directory or Path('.')).resolve() / METADATA_FILE
+    if cfg.exists():
+        meta = {}
+        for line in cfg.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            key, _, value = line.partition(' ')
+            meta[key.lower()] = value.strip()
+        return (meta.get('author',   _DEFAULT_AUTHOR),
+                meta.get('subject',  _DEFAULT_SUBJECT),
+                meta.get('keywords', _DEFAULT_KEYWORDS))
+
+    # No config file — prompt the user and create one
+    print(f'\nNo {METADATA_FILE} found in {cfg.parent}.')
+    print('Please enter PDF metadata (press Enter to accept default):\n')
+    author   = input(f'  author   [{_DEFAULT_AUTHOR}]: ').strip() or _DEFAULT_AUTHOR
+    subject  = input(f'  subject  [{_DEFAULT_SUBJECT}]: ').strip() or _DEFAULT_SUBJECT
+    keywords = input(f'  keywords [{_DEFAULT_KEYWORDS}]: ').strip() or _DEFAULT_KEYWORDS
+
+    cfg.write_text(f'author {author}\nsubject {subject}\nkeywords {keywords}\n')
+    print(f'  → saved to {cfg}\n')
+    return (author, subject, keywords)
+
+
+AUTHOR = SUBJECT = KEYWORDS = None  # set at runtime by main()
 
 # Per-file title lookup; falls back to filename stem.
 TITLE_MAP = {
@@ -416,6 +453,8 @@ def all_shn_files(directory: Path):
 
 
 def main():
+    global AUTHOR, SUBJECT, KEYWORDS
+
     parser = argparse.ArgumentParser(
         description='ECE 474 course materials accessibility tool')
     parser.add_argument('files', nargs='*',
@@ -433,6 +472,8 @@ def main():
     parser.add_argument('--version', default=None,
         help='coursetex version for HTML (s=slides, h=handout, n=notes, c=combined); prompted if omitted')
     args = parser.parse_args()
+
+    AUTHOR, SUBJECT, KEYWORDS = load_metadata()
 
     do_shn  = args.shn  or args.all
     do_html = args.html or args.all
