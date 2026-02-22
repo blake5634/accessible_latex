@@ -1,0 +1,894 @@
+%% Default Latex MidTerm template
+%%
+%%  blake@rcs.ee.washington.edu
+
+<stream, p>      % special for just page 1
+                 % n = solution key
+                 % h = exam
+<*>
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{fancyhdr}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,patterns,decorations.pathmorphing,backgrounds,decorations.markings,calc}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%
+%  Set Up Margins
+\input{/home/blake/templates/pagedim.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%         Page format Mods HERE
+%
+%Mod's to page size for this proposal
+\addtolength\textwidth{0cm}
+\addtolength\oddsidemargin{0cm}
+\addtolength\headsep{0cm}
+\addtolength\textheight{0cm}
+\linespread{0.894}
+
+\pagestyle{fancy}
+\lhead{{\small ECE447 16-May-25}}
+%\chead{CENTER HEADER}
+% \rhead{Name: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}
+\rhead{\small Name: \hspace{2.0in}}
+%\lfoot{Hannaford, U. of Washington}
+%\rfoot{\today}
+%\cfoot{\thepage}
+
+
+\begin{document}
+
+%  Table row height
+\renewcommand\arraystretch{1.0}% Vertical Row size, 1.0 is for standard spacing)
+
+\title{EE447\
+<ph>Mid Term II}
+<n>Mid Term  II\\
+<n>{\Large\tt SOLUTION KEY}}
+
+\author{
+        Prof. Blake Hannaford\\
+        Department of Electrical Engineering \\
+        The University of Washington
+}
+
+\date{16-May-25 }
+
+\maketitle
+
+% {\bf REVIEW DRAFT  15-Oct}
+
+% <n>\pdftooltip{\includegraphics[width=3.5in]{mt1_447_A17_histo.png}}{*\#*\#Guess by make_accessible.py: Figure (mt1_447_A17_histo.png)}
+
+
+
+\vspace{2.5in}
+
+\subsection*{Rules}
+
+\begin{itemize}
+
+  \item  Individual Work
+  \item  Closed Book, Closed Notes
+  \item  One-page ({\bf two} sided) crib sheet allowed.
+  \item  50 minutes
+  \item  60 points
+
+\end{itemize}
+
+
+
+
+
+
+\vspace{1in}
+\begin{center}
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+{\tt NAME}
+\end{center}
+
+<*hn>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%        Problem One
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%** Section 1 
+\section{Bode Magnitude and Phase Plot (14 Points)}
+Plot the Bode Magnitude plot (top)  and Phase plot (bottom)
+on the axes below for
+\[
+G_1(s) = \frac  {2(s+100)(s+500)}  {(s+1)(s+3100)^2}
+\]
+Points breakdown:
+
+\begin{center}
+
+\begin{tabular}{|r|r|} \hline
+Straight line asymptotes =  3 pts.    &  Accurate magnitudes = 2 pts. \\ \hline
+$\pm3dB$ etc. corrections = 3 pts.   & Smooth mag. curve= 2 pts. \\ \hline
+Smooth phase curve = 2 pts.         & Correct axis labels = 2 pts. \\ \hline
+\end{tabular}
+
+% \vspace{0.5in}
+
+%
+%   Bode Plot Blank Axes
+%
+<*h>
+
+
+
+<*h>
+\tikzstyle{background grid}=[draw, gray!60,step=17.5mm]
+\begin{tikzpicture}[show background grid]
+% Mag plot
+%%%%%%%%%%%%%%%%%%%%% configure grid here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% number of decades (omega)
+\pgfmathsetmacro{\N}{7}
+% number of vertical ticks
+\pgfmathsetmacro{\Vt}{6}
+% location of frequency axis (from top)
+\pgfmathsetmacro{\ofst}{3}
+% grid size in mm
+\pgfmathsetmacro{\dx}{17.5}   % dont forget to set grid in \tikzstyle above
+\pgfmathsetmacro{\tic}{1.5}   % tick mark size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pgfmathsetmacro{\xmin}{-\dx};
+\pgfmathsetmacro{\xmax}{\dx * \N};
+
+\pgfmathsetmacro{\ymin}{0};
+\pgfmathsetmacro{\ymax}{\Vt * \dx};
+
+\pgfmathsetmacro{\waxis}{\dx * (\Vt - \ofst)}
+
+% horizontal axis
+\draw [ultra thick]    (\xmin mm, \waxis mm) -- (\xmax mm,  \waxis mm);
+% vertical axis
+\draw [ultra thick]    ( 0mm, \ymin mm) -- (0mm, \ymax mm);
+
+
+% omega axis tic marks
+\foreach \i in {1,...,\N }
+ {
+ \pgfmathsetmacro{\x}{\dx*(\i)};
+ \draw [thick] ( \x mm , \waxis mm) -- (\x mm, \waxis mm - \tic mm);             % horizontal axis tick marks
+ }
+
+% vertical axis tic marks
+\foreach \i in {1,...,\Vt }
+ {
+  \pgfmathsetmacro{\y}{\dx*(\i)};
+  \draw [thick] (0, \y mm)     -- (-\tic mm,\y mm );            % vertical axis tick marks
+ }
+
+\end{tikzpicture}
+
+%%%%%%%%%%%%%%%%%%%%%%%% Phase Plot Grid
+\tikzstyle{background grid}=[draw, gray!60,step=17.5mm]
+\begin{tikzpicture}[show background grid]
+% Phase plot
+%%%%%%%%%%%%%%%%%%%%% configure grid here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% number of decades (omega)
+\pgfmathsetmacro{\N}{7}
+% number of vertical ticks
+\pgfmathsetmacro{\Vt}{4}
+% location of frequency axis (from top)
+\pgfmathsetmacro{\ofst}{2}
+% grid size in mm
+\pgfmathsetmacro{\dx}{17.5}   % dont forget to set grid in \tikzstyle above
+\pgfmathsetmacro{\tic}{1.5}   % tick mark size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pgfmathsetmacro{\xmin}{-\dx};
+\pgfmathsetmacro{\xmax}{\dx * \N};
+
+\pgfmathsetmacro{\ymin}{0};
+\pgfmathsetmacro{\ymax}{\Vt * \dx};
+
+\pgfmathsetmacro{\waxis}{\dx * (\Vt - \ofst)}
+
+% horizontal axis
+\draw [ultra thick]    (\xmin mm, \waxis mm) -- (\xmax mm,  \waxis mm);
+% vertical axis
+\draw [ultra thick]    ( 0mm, \ymin mm) -- (0mm, \ymax mm);
+
+
+% omega axis tic marks
+\foreach \i in {1,...,\N }
+ {
+ \pgfmathsetmacro{\x}{\dx*(\i)};
+ \draw [thick] ( \x mm , \waxis mm) -- (\x mm, \waxis mm - \tic mm);             % horizontal axis tick marks
+ }
+
+% vertical axis tic marks
+\foreach \i in {1,...,\Vt }
+ {
+  \pgfmathsetmacro{\y}{\dx*(\i)};
+  \draw [thick] (0, \y mm)     -- (-\tic mm,\y mm );            % vertical axis tick marks
+ }
+
+\end{tikzpicture}
+
+
+% /////////////////////////////////////////////////////////////////////
+% \tikzstyle{background grid}=[draw, gray!60,step=12.5mm]
+% \begin{tikzpicture}[show background grid]
+% % horizontal axis
+% \draw [thick] (-12.5mm,0mm) -- (100mm,0mm);
+% % vertical axis
+% \draw [thick] (  0mm, 20mm) -- (0mm,-90mm);
+% \foreach \i in {-12.5mm, 12.5mm, 25mm, 37.5mm, 50mm, 62.5mm, 75mm}
+%  {
+%   \draw [thick] (\i,0) -- (\i,-1mm);    % horizontal axis tick marks
+%   \draw [thick] (0,-\i) -- (-1mm,-\i);  % vertical axis tick marks
+%  }
+% % \draw (0,-12.5mm) -- (-1mm,-12.5mm);
+% % \draw (0,-12.5mm) -- (-1mm,-12.5mm);
+% % \draw (0,-12.5mm) -- (-1mm,-12.5mm);
+% % \draw (0, 12.5mm) -- (-1mm, 12.5mm);
+% \end{tikzpicture}
+
+
+\end{center}
+
+
+
+<h>\vspace{3in}
+
+<*n>
+\begin{solution}
+Cartoon:
+
+\pdftooltip{\includegraphics[width=3.0in]{M54H82.png}}{*\#*\#Guess by make_accessible.py: Figure (M54H82.png)}
+
+Bode Plot with smoothing corrections
+
+\pdftooltip{\includegraphics[width=125mm]{M54H83.png}}{*\#*\#Guess by make_accessible.py: Figure (M54H83.png)}
+\end{solution}
+
+\end{center}
+<*>
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Problem 2
+%
+% <*hn>
+% <*>\newpage
+% \newpage
+% %%%%** Section 2
+% \section{Pole/Zero Plotting  \& Performance Regions }
+%
+%
+% %%%%** Table 1
+% \begin{table}[h]\centering
+% \begin{tabular}{c|c|c|c}
+% 	\%OS	& $\zeta$	& $T_r$          &   $\theta$	\\\hline
+% 	10\%	& 0.587		& $1.8/\omega_n$ &  54$^\circ$	\\
+% 	 5\%	& 0.695		& $2.1/\omega_n$ &  46$^\circ$	\\
+% 	 2\%	& 0.777		& $2.3/\omega_n$ &  39$^\circ$	\\
+% 	 1\%	& 0.829		& $2.6/\omega_n$ &  34$^\circ$	\\
+% \end{tabular}
+% \caption{Table of numerically computed values of percent overshoot vs. damping ratio ($\zeta)$.    $T_r$ is also shown for
+% completeness. Note that rise time gets longer as overshoot is reduced.}\label{percentOStable}
+% \end{table}
+%
+%
+% %%%%** Section 2.1
+% \subsection{(x pts.)}
+% Plot the poles and zeros of
+% \[
+% G_2(s) =  \frac    {(s+10)}   {s^2 + 9.3s + 25}
+% \]
+% and
+% \[
+% G_3(s) = \frac  {10^3}  {s^2(s+3)(s+7)}
+% \]
+%
+% Write x$_2$ at each pole of $G_2(s)$, x$_3$ at each pole of $G_3(s)$, o$_i$ for zeros of $G_i(s)$.   Label your axis tick marks.
+%
+% %
+% %   Pole/Zero/Perf Regions Plot Blank Axes
+% %
+% <*h>
+% \vspace{0.5in}\begin{center}
+% \begin{tikzpicture}
+% % Grid size parameters
+% \def\gridsize{8} % 8x8 grid
+% \def\sqsize{1.25} % 12.5mm = 1.25cm
+% \def\totalsize{\gridsize*\sqsize}
+% \def\tick{0.2} % cm
+%
+% % Draw the regular grid lines
+% \draw[step=\sqsize] (0,0) grid (\totalsize,\totalsize);
+%
+% % Draw the horizontal bold axis at the middle (after 4 squares)
+% \draw[line width=1.5pt] (0,4*\sqsize) -- (\totalsize,4*\sqsize);
+%
+% % Draw the vertical bold axis before the 8th column (after 7 squares)
+% \draw[line width=1.5pt] (7*\sqsize,0) -- (7*\sqsize,\totalsize);
+%
+% % axis tickmarks
+% \foreach \i in {0,1,2,3,4,5,6,7,8}
+%  {
+%   \draw [thick] (\sqsize*\i, 4*\sqsize) -- (\sqsize*\i, 4*\sqsize-\tick);    % horizontal axis tick marks
+%   \draw [thick] (7*\sqsize,\i*\sqsize) -- (7*\sqsize-\tick,\i*\sqsize);  % vertical axis tick marks
+%  }
+% \end{tikzpicture}
+% \end{center}
+%
+%
+% <*n>
+% \begin{solution}
+% The two CC poles of $G_2(s)$, have magnitude $\omega_n=5$.
+% $2\zeta\omega_n = 8.3 \to \zeta = 0.83$
+% And recall that $\omega_n$ is the poles' magnitude and $\zeta$ is the poles' angle
+% therefore the poles of $G_2(s)$ are
+% \[
+% p_{2a},p_{2b} = \omega_n \angle \left(\cos^{-1}(\zeta) \right) = [5\angle(34^\circ),\; 5\angle(-34^\circ)]
+% \]
+% For $G_3(s)$ the poles are real, namely:
+% \[
+% \mathrm{poles}_{3} = [0,0,-3,-7]
+% \]
+%
+% \begin{center}
+% \pdftooltip{\includegraphics[width=4.5in]{M54H84.png}}{*\#*\#Guess by make_accessible.py: Figure (M54H84.png)}
+% \end{center}
+% \end{solution}
+%
+
+% <*>
+% \newpage
+% %%%%** Section 2.2
+% \subsection{( x pts.)}
+% On the previous graph, add performance regions, points, or lines for the following two
+% specs:
+% \[
+% T_S \leq 1.0, \quad \%OS=1\%
+% \]
+% You may refer to Table \ref{percentOStable}.
+% <h>\vspace{2.0in}
+% <*n>
+% \begin{solution}
+% Applying
+% \[
+% \sigma = \frac {-4}  {T_S} = -4
+% \]
+% therefore $T_S=1$ gives a vertical line at $\sigma=-4$.  BUT the $T_S$ specification is $\leq 1$ so
+% we shade the right side of the line  indicating anything to the left meets the requirement.
+%
+% For $\%OS$, consulting Table \ref{percentOStable}, $\%OS=1\%$ corresponds   to $34^\circ$ so we draw
+% lines out from the orgin at $\pm34^\circ$ from the negative real axis.  The requirement is exact so poles
+% must be ON the line.
+% \end{solution}
+%
+%
+% <*>
+% %%%%** Section 2.2
+% \subsection{( x pts.)}
+% Which of the two transfer functions ($G_2(s), G_3(s)$) has a step response which meets the specifications?
+% How do you know?
+% <h>\vspace{2.0in}
+% <*n>
+% \begin{solution}
+% The CC poles of $G_2(s)$ just make it into the settling time zone and lie right on the $1\%$ overshoot line.
+% The real poles of $G_3(s)$ are not close.
+% \end{solution}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Problem 2
+%
+<*hn>
+<*>\newpage
+
+%%%%** Section 2 
+\section{Sensitivity Analysis with Closed Loop Control (11 points)}
+
+
+
+\begin{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%        Closed loop control system with PLANT DISTURBANCE
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}[every node/.style={draw, thick,outer sep=0pt,thick}]
+
+% %
+% debugging grid
+%  \draw[step=5mm,gray,very thin] (-25mm,-25mm) grid (100mm,50mm);
+%  \draw[thick,gray] (0,-25mm) -- (0,50mm);
+%  \draw[thick,gray] (-25mm,0) -- (100mm,0);
+%
+%
+%
+\tikzstyle{init} = [pin edge={to-,thin,black}]
+
+
+ \node (C) [thick,minimum width=14mm, minimum height=10mm] {$K_C$};
+
+
+ % disturbance
+%  \node (sum2)  [right of=C, node distance=17.5mm, circle,draw,minimum width=0.1cm, pin={[init]above:$D(s)$} ] {};
+%  \draw [->] (C.east) -- (sum2.west);
+
+ %plant
+ \node (P) [right of=C, node distance=17.5mm,thick,minimum width=14mm, minimum height=10mm] {$\frac{K_P}{(s-\alpha)}$};
+%  \draw [->] (sum2.east) -- (P.west);
+
+\draw [->] (C.east) -- (P.west) ;
+
+ % feedback box
+ \node (H) [thick, xshift=+8mm,  yshift=-10mm] {$H=1$};
+
+ \coordinate (junct) at ($(C.west)-(5mm,0)$);
+ \node (sum)   [circle,draw,minimum width=0.1cm ] at (junct) {};
+
+
+ % feedback loop
+ \coordinate (out1) at ($(P.east)+(5mm,0)$);
+
+ \draw [->]  (out1)   -- (out1 |- H.east) -- (H.east);  % note \- to get x of first and y of second node
+ \draw [->] (H.west) --  (sum.south |- H.west) -- (sum.south);
+
+ % controller input
+ \draw [->] (sum.east) -- (C.west);
+
+\tikzstyle{every node}=[];
+
+ % input
+ \draw [<-] (sum.west) -- ++(-3mm,0mm);
+ \coordinate  (input)  at ($(sum.west)+(-10mm,0)$)   node[xshift=-25mm] {$X(s)$};
+
+ % output
+ \coordinate (out2)   at ($(P.east)+(10mm,0)$);
+ \draw [->] (P.east) -- (out2);
+ \node (output) at ($(out2)+(5mm,0mm)$) {$Y(s)$};
+
+ \node (clabel) [above of=C, yshift=-3mm] {Controller};
+ \node (plabel) [above of=P, yshift=-3mm] {Plant};
+
+ \node (insign) [above left of=sum,xshift=3.5mm,yshift=-3mm] {$+$};
+ \node (fbsign) [below left of=sum,xshift=4.5mm,yshift=2mm] {$-$};
+
+
+% \draw [thick] (Mc.east)  --  (Xa);
+
+\end{tikzpicture}
+%        Closed loop control system with PLANT DISTURBANCE (end)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{center}
+
+We are designing a controller for an expensive production machine (Plant).
+Our measure of performance ($P_i$) will be
+\[
+P_i = \left | \frac {Y(s)}  {X(s)} \right |_{\omega=10}
+\]
+
+Unfortunately, our plant can vary in its key parameter, $\alpha$, by about 10\%.    We can
+safely assume that $K_P = 15$.
+Your task is to compute $S_{ij}$.   In  words, compute the sensitivity   of $\left | \frac {Y(s)}  {X(s)} \right |$ when
+$s=j10$ with respect to the parameter $\alpha$.    When computing $\left | \frac {Y(s)}  {X(s)} \right |$, do not
+convert it to $dB$.
+
+{\bf Hint: first solve for the closed loop transfer function, $\frac {Y(s)}  {X(s)} $ using H.S. Black's equation
+\[
+\frac {Y(s)}  {X(s)} = \frac {CP}  {1+CPH}
+\] }
+
+
+%%%%** Section 2.1
+\subsection{ 7 pts.}
+Assume that $K_C$ = 10, $\alpha=15$, $K_P=15$ and compute the sensitivity coefficient, $S_{ij}$,
+of gain magnitude at $\omega=10$ to the parameter $\alpha$  (as in ICPs, use a 10\% difference).
+
+<h>\vspace{2.5in}
+<*n>
+\begin{solution}
+\[
+\frac {Y(s)}  {X(s)} = \frac {K_CK_P}  {(s-\alpha)+K_CK_P} = \frac {K_CK_P}  {s+K_CK_P-\alpha}
+\]
+For $K_C=10$:
+\[
+\mathrm{For: }\;\alpha = -15\; \mathrm{we~get }\; \left | \frac {150}  {s+15+150} \right |_{s=j10} = \left | \frac {150}  {165+10j} \right |  = 0.9074
+\]
+\[
+\mathrm{For: }\;\alpha = -15\times 1.10= -16.5\;\mathrm{we~get }\; \left | \frac {150}{s+16.5+150} \right |_{s=j10} =\left | \frac {150}  {166.5+10j} \right |  = 0.8993
+\]
+\begin{tabular}{cl|l}
+ & $\alpha$    & magnitude \\ \hline
+ & -15 & 0.9074 \\
+ & -16.5 & 0.8993\\\hline
+$\Delta$  & -1.5  & -0.0081
+\end{tabular}
+\[
+S_{ij} = \frac {-0.0081}  {-1.5} \times \frac {15}  {0.9074} = 8.9\%
+\]
+\end{solution}
+
+
+
+<*>
+%%%%** Section 2.2
+\subsection{ 4 pts.}
+Repeat the above computation for $K_C=100$, explain the significance of the
+result, if any, for designing your controller.
+
+<h>\vspace{3in}
+
+<*n>
+\begin{solution}
+\[
+\frac {Y(s)}  {X(s)} = \frac {K_CK_P}  {(s-\alpha)+K_CK_P}
+\]
+For $K_C=10$:
+\[
+\alpha = -15: \left | \frac {1500}  {s+15+1500} \right |_{s=j10} =\left | \frac {1500}  {1515+10j} \right |  = 0.99007
+\]
+\[
+\alpha = -16.5: \left | \frac {1500}{s+16.5+1500} \right |_{s=j10} =\left | \frac {1500}  {1516.5+10j} \right |  = 0.989098
+\]
+\begin{tabular}{cl|l}
+ & $\alpha$    & magnitude \\ \hline
+ & -15 & 0.9907 \\
+ & -16.5 & 0.989098\\\hline
+$\Delta$  & -1.5  & -0.000972
+\end{tabular}
+\[
+S_{ij} = \frac {-0.000972}  {-1.5} \times \frac {15}  {0.99007} = 0.1\%
+\]
+
+With greater gain in the controller (which increases loop gain) we singificantly reduced sensitivity to a plant parameter.
+In fact, with $10\times$ greater $K_C$ we got 100$\times$ lower sensitivity!
+\end{solution}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Problem 3
+%
+<*>
+\newpage
+%%%%** Section 3 
+\section{Disturbance Rejection  (17  points)}
+
+
+\begin{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%        Closed loop control system with PLANT DISTURBANCE
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}[every node/.style={draw, thick,outer sep=0pt,thick}]
+
+% %
+% debugging grid
+%  \draw[step=5mm,gray,very thin] (-25mm,-25mm) grid (100mm,50mm);
+%  \draw[thick,gray] (0,-25mm) -- (0,50mm);
+%  \draw[thick,gray] (-25mm,0) -- (100mm,0);
+%
+%
+%
+\tikzstyle{init} = [pin edge={to-,thin,black}]
+
+
+ \node (C) [thick,minimum width=14mm, minimum height=10mm] {$\frac{K}{(s+100)}$};
+
+ % disturbance
+ \node (sum2)  [right of=C, node distance=17.5mm, circle,draw,minimum width=0.1cm, pin={[init]above:$D(s)$} ] {};
+ \draw [->] (C.east) -- (sum2.west);
+
+ %plant
+ \node (P) [right of=sum2, node distance=17.5mm,thick,minimum width=14mm, minimum height=10mm] {$\frac{10}{(s+100)}$};
+ \draw [->] (sum2.east) -- (P.west);
+
+
+ % feedback box
+ \node (H) [thick, below of=sum2, yshift=-10mm] {$H=1$};
+
+ \coordinate (junct) at ($(C.west)-(5mm,0)$);
+ \node (sum)   [circle,draw,minimum width=0.1cm ] at (junct) {};
+
+
+ % feedback loop
+ \coordinate (out1) at ($(P.east)+(5mm,0)$);
+
+ \draw [->]  (out1)   -- (out1 |- H.east) -- (H.east);  % note \- to get x of first and y of second node
+ \draw [->] (H.west) --  (sum.south |- H.west) -- (sum.south);
+
+ % controller input
+ \draw [->] (sum.east) -- (C.west);
+
+\tikzstyle{every node}=[];
+
+ % input
+ \draw [<-] (sum.west) -- ++(-3mm,0mm);
+ \coordinate  (input)  at ($(sum.west)+(-10mm,0)$)   node[xshift=-25mm] {$X(s)$};
+
+ \node[above left of=sum,xshift=3.5mm,yshift=-3mm](insign){$+$};
+ \node[below left of=sum,xshift=4.5mm,yshift=2mm](fbsign){$-$};
+
+
+ % output
+ \coordinate (out2)   at ($(P.east)+(10mm,0)$);
+ \draw [->] (P.east) -- (out2);
+ \node (output) at ($(out2)+(5mm,0mm)$) {$Y(s)$};
+
+ \node (clabel) [above of=C, yshift=-3mm] {Controller};
+ \node (plabel) [above of=P, yshift=-3mm] {Plant};
+
+
+% \draw [thick] (Mc.east)  --  (Xa);
+
+\end{tikzpicture}
+%        Closed loop control system with PLANT DISTURBANCE (end)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{center}
+
+%%%%** Section 3.1
+\subsection{8 pts}\label{disturbanceK}
+
+Find $K$ so that the disturbance response, $\frac{Y(s)}{D(s)}= -30dB $  for $\omega < 10.0$.
+
+
+<h>\vspace{2.5in}
+
+<*n>
+{\tt
+\section*{\tt Solution}
+\[
+\frac{Y(s)}{D(s)} = \frac {P}  {1+CPH} = \frac  {\frac{10}{(s+100)}}     {1+\frac{10K}{(s+100)^2}}
+\]
+\[
+= \frac  {10(s+100)}  {(s+100)^2+10K} = \frac {10(s+100)}   {s^2+200s+10^4+10K}
+\]
+for $\omega << 100$,
+\[
+\left | \frac {Y(s)}  {D(s)} \right | = \frac {10^3} {10^4+10K} = -30dB = \frac {1}{31.6}
+\]
+\[
+10^3 = (10^4+10K)/31.6 \to 31600.0 = 10^4+10K \to 21600 = 10K
+\]
+\[
+K = 2160
+\]
+} % end of solution (\tt)
+
+<*>
+%%%%** Section 3.2
+\subsection{5 pts}\label{distMiddle}
+Draw a Bode Magnitude Plot (no phase plot) of your solution to \ref{disturbanceK}.
+
+<h>\pdftooltip{\includegraphics[width=120mm]{00970B.png}}{*\#*\#Guess by make_accessible.py: Figure (00970B.png)}
+<n>\pdftooltip{\includegraphics[width=120mm]{00970.png}}{*\#*\#Guess by make_accessible.py: Figure (00970.png)}
+<*>
+%%%%** Section 3.3
+\subsection{4 pts}\label{disturbLast}
+Make another Bode Magnitude Plot on the same axes as \ref{distMiddle} to show that $K=1000$ does {\bf NOT} satisfy the goal of Problem \ref{disturbanceK}.
+
+<*n>
+{\tt
+\section*{\tt Solution}
+
+for $K=1000$,
+\[
+\frac {Y} {D} = \frac {10(s+100)} {s^2+200s+10^4+10^4}
+\]
+for $\omega << 100$,
+\[
+\left | \frac {Y(s)}  {D(s)} \right | = \frac {1000} {2\times10^4} = 0.05 = -26dB
+\]
+\[
+\omega_n = \sqrt{2\times10^4} = 1.414\times10^2 = 141
+\]
+
+{\bf See \ref{distMiddle} for Bode Plot.}
+
+When $K=1000$, the disturbance response is only -26$dB$ so it is not enough.  Note that
+for frequencies $>> 100$rad/sec, in both cases, the Plant acts like a low pass filter on the disturbance.
+
+Also interesting is that for $\omega<<100$, $|P(j\omega)| = 0.1 = -20dB$.    So even open loop the
+plant has $20dB$ of disturbance rejection.  Our requirement of $-30dB$ is thus 10 times less
+disturbance than open loop.
+
+
+} %end of solution
+<*>
+
+
+<*>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%       Problem 3
+%
+<*>\renewcommand{\vec}[1]{\underline{#1}}
+
+<hn>\newpage
+
+<*>
+%%%%** Section 4 
+\section{Stability (18 points)}
+For the following system
+% \[
+% G(s) = \frac {4000K}  {(s+1)(s^2+320s+4\times10^4)}
+% \]
+
+
+\begin{center}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %        Closed loop control system   1 forward block
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \begin{tikzpicture} %[every node/.style={draw, thick,outer sep=0pt,thick}]
+
+        % %
+        % debugging grid
+        %  \draw[step=5mm,gray,very thin] (-25mm,-25mm) grid (100mm,50mm);
+        %  \draw[thick,gray] (0,-25mm) -- (0,50mm);
+        %  \draw[thick,gray] (-25mm,0) -- (100mm,0);
+        %
+        %
+        %
+
+        \node (C) [draw, thick,minimum width=50mm, minimum height=10mm] {$G(s) = \frac {4000K}  {(s+1)(s^2+320s+4\times10^4)}$};
+        \node (H) [draw, thick, yshift=-15mm] {$H=1$};
+
+        \coordinate (outend) at ($(C.east)+(12.5mm,0)$);
+        \coordinate (out2)   at ($(C.east)+(5mm,0)$);
+        \draw [->] (C.east) -- (outend);
+        \draw [->]  (out2)   -- ++(0,-15mm) -- (H.east);
+
+        \node (sum)   [circle,draw,minimum width=0.1cm ] at (-30mm,0mm) {};
+
+
+        \node (insign) [above left of=sum,xshift=3.5mm,yshift=-3mm] {$+$};
+        \node (fbsign) [below left of=sum,xshift=4.5mm,yshift=2mm] {$-$};
+
+
+        \draw [->] (H.west) -- (-30mm,-15mm) -- (sum.south);
+
+        \draw [->] (sum.east) -- (C.west);
+        \draw [<-] (sum.west) -- ++(-5mm,0mm);
+
+        \tikzstyle{every node}=[];
+
+        \coordinate  (input) at ($(sum.east)$) node[xshift=-45mm] {$X(s)$};
+
+        \node (output) at ($(outend)+(5mm,0mm)$) {$Y(s)$};
+
+        % \draw [thick] (Mc.east)  --  (Xa);
+
+    \end{tikzpicture}
+    %        Closed loop control system (end)
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{center}
+
+
+
+%%%%** Section 4.1
+\subsection{(7 pts.)} Find the closed loop transfer function. As in past problems,
+your transfer function should be the ratio of two normalized polynomials.
+
+<h>\vspace{3in}
+
+<*n>
+\begin{solution}
+\[
+\frac {Y(s)}  {X(s)} = \frac {CP}  {1+CPH} = \frac {G}  {1+GH} =  \frac {\frac {4000K}  {(s+1)(s^2+320s+4\times10^4)}}  {1+\frac {4000K}  {(s+1)(s^2+320s+4\times10^4)}}
+\]
+\[
+= \frac {4000K}  {(s+1)(s^2+320s+4\times10^4) + 4000K}
+\]
+\[
+\frac {Y(s)}  {X(s)} = \frac {4000K}  {s^3+321s^2+40320s+4\times10^4+4000K}
+\]
+\end{solution}
+
+
+<*>
+%%%%** Section 4.2
+\subsection{(4 pts.)}
+With python we computed the poles  of $\frac {Y(s)}  {X(s)}$  for several values of $K$ as follows
+{\small
+\begin{verbatim}
+K:    500.0 [  -133+0j   -94+81j   -94-81j ]
+K:   1000.0 [  -221+0j  -50+126j  -50-126j ]
+K:   1500.0 [  -256+0j  -33+150j  -33-150j ]
+K:   2000.0 [  -280+0j  -21+168j  -21-168j ]
+K:   2500.0 [  -299+0j  -11+183j  -11-183j ]
+K:   3000.0 [  -315+0j   -3+196j   -3-196j ]
+K:   3500.0 [  -328+0j    4+207j    4-207j ]
+K:   4000.0 [  -341+0j   10+217j   10-217j ]
+K:   4500.0 [  -352+0j   16+226j   16-226j ]
+K:   5000.0 [  -362+0j   21+234j   21-234j ]
+K:   5500.0 [  -372+0j   25+242j   25-242j ]
+K:   6000.0 [  -381+0j   30+249j   30-249j ]
+K:   6500.0 [  -389+0j   34+256j   34-256j ]
+K:   7000.0 [  -397+0j   38+263j   38-263j ]
+K:   7500.0 [  -405+0j   42+269j   42-269j ]
+K:   8000.0 [  -412+0j   45+275j   45-275j ]
+K:   8500.0 [  -419+0j   49+281j   49-281j ]
+K:   9000.0 [  -425+0j   52+286j   52-286j ]
+K:   9500.0 [  -432+0j   55+292j   55-292j ]
+\end{verbatim}  }
+Approximately what value of $K$ is the upper limit where instability will occur?
+<h>\vspace{0.5in}
+
+<*n>
+\begin{solution}
+There are three poles since the denominator of the CLTF since
+it is 3rd order.  There is
+one real pole (listed first by python) and two CC poles
+(e.g.$-94\pm81j$ at $K=500$).   The real part of the CC poles turns positive
+between $K=3000$ and $K=3500$.  Since the real part is kind of symmetrical about
+zero ($-3, +4$) we can split the difference:
+\[
+K_{limit} \approx 3250
+\]
+\end{solution}
+
+<*>
+%%%%** Section 4.3
+\subsection{(7 pts.)}
+A different control system was tested in a lab, producing the following Bode Plots for
+the loop gain: $CPH(s)$:
+
+% For the following Transfer function:
+% \[
+% G_{4.3}(s) = \frac  {2.0\times10^4}   {(s+0.1)(s+31.6)^2}
+% \]
+% Python gives the following Bode Plots:
+
+<*h>\pdftooltip{\includegraphics[width=0.8\textwidth]{W01N01.png}}{*\#*\#Guess by make_accessible.py: Figure (W01N01.png)}
+
+%%%%** Section 4.3.1 
+\subsubsection{}  Draw a vertical line on the plot and indicate the Gain Margin in $dB$. (and give the value of Gain Margin)
+%%%%** Section 4.3.2 
+\subsubsection{}  Draw another  vertical line on the plot and indicate the Phase Margin in $dB$. (and give the value of Phase Margin)
+%%%%** Section 4.3.3 
+\subsubsection{}  According to the margins you computed, is the system stable or unstable?
+
+<*n>
+\begin{solution}
+\pdftooltip{\includegraphics[width=0.8\textwidth]{W01N01n.png}}{*\#*\#Guess by make_accessible.py: Figure (W01N01n.png)}
+%%%%** Section 4.3.4 
+\subsubsection{}  Draw a vertical line on the plot and indicate the Gain Margin in $dB$. (and give the value of Gain Margin)
+%%%%** Section 4.3.5 
+\subsubsection{}  Draw another  vertical line on the plot and indicate the Phase Margin in $dB$. (and give the value of Phase Margin)
+
+See above plot.
+
+%%%%** Section 4.3.6 
+\subsubsection{}  According to these Margins, is the system stable or unstable?
+
+Gain margins are $+10.3dB$ and $36.8^\circ$. Since they are both positive the system is stable.
+
+
+\end{solution}
+
+<*>
+\end{document}
