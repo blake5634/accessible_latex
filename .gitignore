@@ -1,8 +1,5 @@
 # Exam and course-specific files — not part of the tools repo
 *.pdf
-*.html
-*.png
-*.svg
 *.eps
 *.ods
 *.upa
