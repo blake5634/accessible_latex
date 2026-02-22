@@ -1,0 +1,80 @@
+%%  Test Document for make\_accessible.py
+%%
+
+\documentclass[letterpaper]{article}
+
+% Uncomment for bibliog.
+%\bibliographystyle{unsrt}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%
+%  Set Up Margins
+\usepackage[margin=0.5in]{geometry}
+
+%
+%        Font selection
+%
+%\renewcommand{\rmdefault}{ptm}             % Times
+%\renewcommand{\rmdefault}{phv}             % Helvetica
+%\renewcommand{\rmdefault}{pcr}             % Courier
+%\renewcommand{\rmdefault}{pbk}             % Bookman
+%\renewcommand{\rmdefault}{pag}             % Avant Garde
+%\renewcommand{\rmdefault}{ppl}             % Palatino
+%\renewcommand{\rmdefault}{pch}             % Charter
+
+
+% Make table rows deeper
+%\renewcommand\arraystretch{2.0}% Vertical Row size, 1.0 is for standard spacing)
+
+\begin{document}
+\title{Test Document for {\tt make\_accessible.py}}
+
+\author{
+        Blake Hannaford\\
+        Department of Electrical Engineering \\
+        The University of Washington
+}
+
+\date{\today}
+
+\maketitle
+
+\section{Purpose and Access}
+The purpose of this document is for testing a script to make latex documents accessible.
+This document is a ``naive'' {\tt latex} file where no tags have been used for accessibility.
+
+The script {\tt make\_accessible.py} was written with the help of Claude Code but
+it in itself is just a regular python script and it does not contain or invoke any
+AI.
+
+It can be accessed at \href{https://github.com/blake5634/accessible\_latex}{Github}.
+
+\subsection{Suggeted procedure}
+\begin{enumerate}
+   \item  install the \href{https://pandoc.org/installing.html}{Pandoc package}:
+   \item  {\tt run > python3 make\_accessible.py --help} for info.
+   \item  try it on your latex files (make backups first!!)
+   \item  Go through your new {\tt \_acc.tex} file to write the alternate texts for your {\tt \\includegraphics()} figures.  You can quickly search for {\tt ***!!***} to
+   find them.
+   \item  Compile your new latex and see how it looks
+   \item  Run it through an accessibility checker like the free one at: \href{https://www.accessibilitychecking.com/}{Accessibility Checker.com}
+   \item  Thank Claude Code.
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Itemize
+
+\begin{itemize}
+  \item
+  \item
+  \item
+\end{itemize}
+
+%  Use name of bibliography files without .bib extension
+%\bibliography{brl}
+\end{document}
+

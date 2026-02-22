@@ -1,7 +1,4 @@
 # Exam and course-specific files — not part of the tools repo
-*.shn
-*.shn.bak
-*.tex
 *.pdf
 *.html
 *.png
